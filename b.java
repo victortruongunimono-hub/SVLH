@@ -1,72 +1,43 @@
+package b;
+
 import java.io.DataInputStream;
-import java.io.InputStream;
-import java.util.Vector;
 
-public class b extends DataInputStream {
-   private String a;
-   private static Vector b = new Vector();
-   private static Class c;
+public final class b {
+   private short a;
+   private short[] b;
+   private String[] c;
 
-   private b(InputStream var1, String var2) {
-      super(var1);
-      this.a = var2;
-   }
+   public final void a(DataInputStream var1, String[] var2) {
+      this.a = var1.readShort();
+      byte var3 = var1.readByte();
+      byte var4 = var1.readByte();
+      this.b = new short[var4];
 
-   public static InputStream a(String var0) {
-      Class var10000 = c;
-      if (var10000 == null) {
-         try {
-            var10000 = Class.forName("b");
-         } catch (ClassNotFoundException var5) {
-            throw new NoClassDefFoundError(var5.getMessage());
-         }
-
-         c = var10000;
+      int var5;
+      for(var5 = 0; var5 < var4; ++var5) {
+         this.b[var5] = var1.readShort();
       }
 
-      Object var1;
-      if ((var1 = var10000.getResourceAsStream(var0)) != null) {
-         var1 = new b((InputStream)var1, var0);
-         b.addElement(var1);
-         if (b.size() > 10) {
-            System.out.println("current size: " + b.size());
+      if (var2 != null) {
+         this.c = new String[var3 - var4];
 
-            for(int var6 = 0; var6 < b.size(); ++var6) {
-               b var2 = (b)b.elementAt(var6);
-
-               try {
-                  if (var2.available() == 0) {
-                     System.out.println("auto close1: " + var2.a);
-                     var2.close();
-                     --var6;
-                  }
-               } catch (Exception var4) {
-               }
-            }
-
-            System.out.println("new size: " + b.size());
-            if (b.size() > 10) {
-               b var7 = (b)b.elementAt(0);
-
-               try {
-                  System.out.println("auto close2: " + var7.a);
-                  var7.close();
-               } catch (Exception var3) {
-               }
-            }
+         for(var5 = 0; var5 < var3 - var4; ++var5) {
+            short var6 = var1.readShort();
+            this.c[var5] = var2[var6];
          }
       }
 
-      return (InputStream)var1;
    }
 
-   public void close() {
-      b.removeElement(this);
+   public final short a() {
+      return this.a;
+   }
 
-      try {
-         super.close();
-      } catch (Exception var1) {
-         System.out.println("close error");
-      }
+   public final short[] b() {
+      return this.b;
+   }
+
+   public final String[] c() {
+      return this.c;
    }
 }
